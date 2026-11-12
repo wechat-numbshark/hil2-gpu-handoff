@@ -2,7 +2,21 @@
 
 **Language:** [简体中文](README.md) · English · [日本語](README.ja.md)
 
-![Synthetic cluster dashboard](docs/demo-dashboard.png)
+**The hard question in a shared GPU lab is “can this machine be handed to the next person?”** GPU utilization and running containers do not answer that. HIL2 combines read-only machine facts, half-hour reservations, and confirmation from the current occupant. Collection failures are shown as unknown; nobody is automatically evicted.
+
+### See the handoff flow · synthetic data
+
+**Status and reasons:**
+
+![Synthetic cluster status dashboard](docs/demo-dashboard.png)
+
+**Reservations:**
+
+![Synthetic half-hour reservation board](docs/demo-booking.png)
+
+**Per-cluster administration:**
+
+![Synthetic cluster administration](docs/demo-admin.png)
 
 A read-only monitor, reservation board, and human-confirmed handoff flow for shared GPU test clusters. The agent collects Docker, process, recent-write, GPU, and login-session facts. It never stops containers, kills processes, deletes data, or releases a cluster automatically. Collection failures become `UNKNOWN`, never `IDLE`.
 
