@@ -1,0 +1,22 @@
+# 最小 sudo 规则：只在不便把账号加入 docker 组时使用。
+# 安装：
+#   sudo cp deploy/sudoers.d/hil-agent /etc/sudoers.d/hil-agent
+#   sudo chmod 440 /etc/sudoers.d/hil-agent
+#   sudo visudo -c        # 必须先校验语法再生效
+#
+# 优先方案仍然是把服务账号加进 docker 组，而不是给 sudo。
+# 这里只放开采集必需的三条只读命令，不给完整 root。
+
+Cmnd_Alias HIL_READONLY = \
+    /usr/bin/docker ps -a --format *, \
+    /usr/bin/docker exec * pgrep -af pytest, \
+    /usr/bin/nvidia-smi --query-gpu=* --format=*
+
+hil-agent ALL=(root) NOPASSWD: HIL_READONLY
+
+# 明确禁止一切会改变状态的 docker 子命令，作为纵深防御。
+# 注意：sudoers 的否定规则不是绝对安全边界，真正的边界是上面的白名单。
+Cmnd_Alias HIL_FORBIDDEN = \
+    /usr/bin/docker stop *, /usr/bin/docker kill *, /usr/bin/docker rm *, \
+    /usr/bin/docker restart *, /usr/bin/docker compose *, /usr/bin/docker system *
+hil-agent ALL=(ALL) !HIL_FORBIDDEN

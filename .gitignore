@@ -1,0 +1,40 @@
+# 绝不提交凭据
+.env
+.env.local
+.env.*.local
+agent/.env
+
+# 运行期数据
+var/
+*.db
+*.db-wal
+*.db-shm
+*.jsonl
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 编辑器
+.DS_Store
+.idea/
+
+# Local state and credentials
+.env*
+!.env.example
+*.db
+*.sqlite*
+*.log
+logs/
+data/
+var/
+venv/
+.venv/
+__pycache__/
+.pytest_cache/
+.DS_Store

@@ -1,0 +1,45 @@
+# 集群侧只读采集（部署在 52 / 58 / 60 每台上）
+# 安装：
+#   sudo cp agent/hil_agent.py /opt/hil-agent/
+#   sudo cp deploy/systemd/hil-agent.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now hil-agent
+
+[Unit]
+Description=HIL2.0 集群只读采集
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+User=hil-agent
+Group=hil-agent
+# 只读 docker 需要 docker 组；若用 sudo 规则则去掉这行，见 deploy/sudoers.d/
+SupplementaryGroups=docker
+WorkingDirectory=/opt/hil-agent
+EnvironmentFile=/opt/hil-agent/.env
+ExecStart=/usr/bin/python3 /opt/hil-agent/hil_agent.py
+Restart=always
+RestartSec=15
+
+StateDirectory=hil-monitor
+LogsDirectory=hil-monitor
+RuntimeDirectory=hil-monitor
+
+# 采集脚本对被监控环境只读，这里再从系统层面兜一道
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ReadWritePaths=/var/lib/hil-monitor /var/log/hil-monitor /run/hil-monitor
+# /data1 只读挂载：即使脚本被改坏也删不掉数据
+ReadOnlyPaths=/data1
+RestrictNamespaces=yes
+LockPersonality=yes
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=hil-agent
+
+[Install]
+WantedBy=multi-user.target

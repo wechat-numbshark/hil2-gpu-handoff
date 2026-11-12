@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  macOS 常驻运行协调服务。
+
+  安装：
+    cp deploy/launchd/com.hil2.coordinator.plist ~/Library/LaunchAgents/
+    # 把下面的 /opt/hil2 换成你的实际路径
+    launchctl load  ~/Library/LaunchAgents/com.hil2.coordinator.plist
+    launchctl start com.hil2.coordinator
+  卸载：
+    launchctl unload ~/Library/LaunchAgents/com.hil2.coordinator.plist
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.hil2.coordinator</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/hil2/.venv/bin/python</string>
+        <string>-m</string>
+        <string>hil2</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/opt/hil2</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+    </dict>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+
+    <key>StandardOutPath</key>
+    <string>/opt/hil2/var/coordinator.log</string>
+    <key>StandardErrorPath</key>
+    <string>/opt/hil2/var/coordinator.err.log</string>
+
+    <!-- launchd 不读 .env，关键变量在这里给；服务启动时也会读工作目录下的 .env -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PYTHONUNBUFFERED</key>
+        <string>1</string>
+        <key>LOG_LEVEL</key>
+        <string>INFO</string>
+    </dict>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>

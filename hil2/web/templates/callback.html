@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>正在登录</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="centered">
+  <div class="callback" role="status" aria-live="polite">
+    <div class="callback__spinner" aria-hidden="true"></div>
+    <h1 id="callback-title">正在登录…</h1>
+    <p id="callback-note">正在用飞书授权码换取登录状态</p>
+    <a class="ghost" id="callback-back" href="/" hidden>返回大盘</a>
+  </div>
+<script src="/static/auth.js"></script>
+<script>
+(async () => {
+  const title = document.getElementById('callback-title');
+  const note = document.getElementById('callback-note');
+  const back = document.getElementById('callback-back');
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+
+  const fail = (message) => {
+    document.querySelector('.callback__spinner').hidden = true;
+    title.textContent = '登录没成功';
+    note.textContent = message;
+    back.hidden = false;
+  };
+
+  if (!code) { fail(params.get('error_description') || '没有拿到飞书授权码'); return; }
+
+  try {
+    // redirect_uri 必须与授权时完全一致，否则飞书会拒绝换令牌
+    await window.HIL2Auth.exchange(code, window.location.origin + '/auth/callback');
+    let target = '/';
+    try { target = sessionStorage.getItem('hil2-return-to') || '/'; } catch { /* 忽略 */ }
+    window.location.replace(target);
+  } catch (error) {
+    fail(error.message);
+  }
+})();
+</script>
+</body>
+</html>

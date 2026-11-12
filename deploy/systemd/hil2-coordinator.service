@@ -1,0 +1,48 @@
+# 协调服务（常驻，1 核 1G 足够）
+# 安装：
+#   sudo cp deploy/systemd/hil2-coordinator.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now hil2-coordinator
+
+[Unit]
+Description=HIL2.0 集群闲忙监控与飞书交接协调服务
+Documentation=file:///opt/hil2/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+User=hil2
+Group=hil2
+WorkingDirectory=/opt/hil2
+EnvironmentFile=/opt/hil2/.env
+ExecStart=/opt/hil2/.venv/bin/python -m hil2
+Restart=always
+RestartSec=5
+
+# 只出站访问飞书，不需要公网 IP / 域名 / 回调地址
+StateDirectory=hil2
+LogsDirectory=hil2
+
+# 加固：本服务只需要读自己的目录和出站网络
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+ReadWritePaths=/opt/hil2/var /var/lib/hil2 /var/log/hil2
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=hil2-coordinator
+
+[Install]
+WantedBy=multi-user.target

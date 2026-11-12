@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>管理后台 · HIL 集群监控</title>
+<link rel="stylesheet" href="/static/styles.css">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-server" viewBox="0 0 24 24"><rect x="3.2" y="3.6" width="17.6" height="6.6" rx="1.8"/><rect x="3.2" y="13.8" width="17.6" height="6.6" rx="1.8"/><path d="M7 6.9h.01M7 17.1h.01"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5.2v13.6M5.2 12h13.6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.4 6.4l11.2 11.2M17.6 6.4L6.4 17.6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.4v11.4M7.6 10.4 12 14.8l4.4-4.4"/><path d="M4.2 17.2v1.6a1.8 1.8 0 0 0 1.8 1.8h12a1.8 1.8 0 0 0 1.8-1.8v-1.6"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24"><path d="M8.6 2.9v5.4M15.4 2.9v5.4"/><path d="M5.6 8.3h12.8v3.4a6.4 6.4 0 0 1-12.8 0z"/><path d="M12 18.1v3"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9.4" cy="8.2" r="3.6"/><path d="M2.9 20a6.7 6.7 0 0 1 13 0"/><path d="M16.4 4.9a3.6 3.6 0 0 1 0 6.9M17.8 20a6.7 6.7 0 0 0-2.1-4.6"/></symbol>
+    <symbol id="i-sync" viewBox="0 0 24 24"><path d="M20.2 11.4a8.2 8.2 0 0 0-14-4.6L3.8 9.2"/><path d="M3.8 12.6a8.2 8.2 0 0 0 14 4.6l2.4-2.4"/><path d="M3.8 4.4v4.8h4.8M20.2 19.6v-4.8h-4.8"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4.4 20.6v-6.8M4.4 9.6V3.4M12 20.6v-9.4M12 6.8V3.4M19.6 20.6v-4.4M19.6 11.8V3.4"/><path d="M1.8 13.8h5.2M9.4 6.8h5.2M17 16.2h5.2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.8 12.6l4.6 4.6 9.8-10.4"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.6 21.4 20H2.6z"/><path d="M12 9.6v4.3"/><circle cx="12" cy="17" r=".55" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20.4 12H3.6M9.1 5.6 3.6 12l5.5 6.4"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.9v2.4M12 19.7v2.4M4.8 4.8l1.7 1.7M17.5 17.5l1.7 1.7M1.9 12h2.4M19.7 12h2.4M4.8 19.2l1.7-1.7M17.5 6.5l1.7-1.7"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.4 13.9A8.7 8.7 0 0 1 10.1 3.6a8.9 8.9 0 1 0 10.3 10.3"/></symbol>
+  </defs>
+</svg>
+
+<header class="masthead">
+  <div class="masthead__id">
+    <a class="ghost ghost--icon" href="/" title="返回大盘"><svg class="icon"><use href="#i-back"/></svg></a>
+    <span class="masthead__names">
+      <h1>管理后台</h1>
+      <p>逐台配置采集、验证连接并管理飞书组织</p>
+    </span>
+  </div>
+  <div class="masthead__tools">
+    <span class="who" id="who" hidden>
+      <span class="who__name" id="who-label"></span>
+    </span>
+    <button type="button" class="ghost ghost--icon" id="theme-toggle" aria-label="切换明暗主题">
+      <svg class="icon only-dark"><use href="#i-sun"/></svg>
+      <svg class="icon only-light"><use href="#i-moon"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="notice notice--offline" id="gate" hidden>
+  <svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg>
+  <span id="gate-text"></span>
+  <button type="button" class="ghost ghost--sm" id="gate-login" hidden>飞书登录</button>
+</div>
+
+<main id="console" hidden>
+  <nav class="tabs" role="tablist">
+    <button type="button" class="tabs__item" role="tab" data-tab="clusters" aria-selected="true">
+      <svg class="icon"><use href="#i-server"/></svg>集群监控
+    </button>
+    <button type="button" class="tabs__item" role="tab" data-tab="org" aria-selected="false">
+      <svg class="icon"><use href="#i-users"/></svg>组织与权限
+    </button>
+    <button type="button" class="tabs__item" role="tab" data-tab="settings" aria-selected="false">
+      <svg class="icon"><use href="#i-sliders"/></svg>系统设置
+    </button>
+  </nav>
+
+  <!-- ---------- 集群 ---------- -->
+  <section class="panel" id="tab-clusters" role="tabpanel">
+    <header class="panel__head">
+      <h3>纳管集群</h3>
+      <span class="panel__hint" id="cluster-summary"></span>
+      <button type="button" class="primary primary--sm" id="add-cluster">
+        <svg class="icon"><use href="#i-plus"/></svg>新增集群
+      </button>
+    </header>
+
+    <p class="hint" id="deploy-hint">
+      <b>两种采集方式，逐台可选。</b>
+      <b>Agent 推送</b>：集群上常驻采集进程，实时性最好，需要下载安装包部署一次。
+      <b>SSH 拉取</b>：协调服务定时连过去执行同一份采集脚本，<b>集群上什么都不用装</b>，
+      代价是要给一把只读 SSH 钥匙。两种方式产出的事件完全一样，后续链路无差别。
+    </p>
+
+    <div class="ctable" id="cluster-list"></div>
+    <p class="panel__empty" id="cluster-empty" hidden>还没有纳管任何集群，点右上角新增。</p>
+  </section>
+
+  <!-- ---------- 组织 ---------- -->
+  <section class="panel" id="tab-org" role="tabpanel" hidden>
+    <header class="panel__head">
+      <h3>飞书组织架构</h3>
+      <span class="panel__hint" id="org-summary"></span>
+      <button type="button" class="ghost ghost--sm" id="org-check">测试连接</button>
+      <button type="button" class="primary primary--sm" id="org-sync">
+        <svg class="icon"><use href="#i-sync"/></svg>立即同步
+      </button>
+    </header>
+
+    <p class="hint">
+      同步会拉取部门和成员，用于后台指派管理员、预约页显示真实姓名。
+      <b>只新增和更新，不删人</b>——飞书里离职的人在本地标记为不活跃，历史预约仍能看出是谁约的。
+      需要应用具备 <code>contact:user.base:readonly</code> 和
+      <code>contact:department.base:readonly</code> 权限。
+    </p>
+
+    <div class="orgbar">
+      <input type="search" id="org-search" placeholder="搜索姓名或邮箱" autocomplete="off">
+      <label class="checkline"><input type="checkbox" id="org-admins-only">只看管理员</label>
+    </div>
+    <div class="ctable" id="org-list"></div>
+    <p class="panel__empty" id="org-empty" hidden>通讯录还是空的，点「立即同步」拉取。</p>
+  </section>
+
+  <!-- ---------- 设置 ---------- -->
+  <section class="panel" id="tab-settings" role="tabpanel" hidden>
+    <header class="panel__head">
+      <h3>系统设置</h3>
+      <span class="panel__hint">改完立即生效，不用重启</span>
+      <button type="button" class="primary primary--sm" id="save-settings">保存</button>
+    </header>
+    <p class="hint">
+      涉及安全的项（应用密钥、上报密钥、JWT 密钥）只能改 <code>.env</code> 并重启，
+      网页上不提供，也不会回显。
+    </p>
+    <div class="formgrid" id="settings-form"></div>
+
+    <h4 class="subhead">最近操作</h4>
+    <ul class="feed" id="audit-list"></ul>
+  </section>
+</main>
+
+<!-- 集群编辑抽屉 -->
+<dialog class="sheet sheet--wide" id="cluster-sheet">
+  <form method="dialog" id="cluster-form">
+    <header class="sheet__head">
+      <h3 id="cluster-sheet-title">编辑集群</h3>
+      <button type="button" class="ghost ghost--icon" id="cluster-close" aria-label="关闭">
+        <svg class="icon"><use href="#i-x"/></svg>
+      </button>
+    </header>
+    <div class="formgrid" id="cluster-fields"></div>
+    <p class="sheet__error" id="cluster-error" hidden></p>
+    <footer class="sheet__actions">
+      <button type="button" class="ghost" id="cluster-delete" hidden>移出纳管</button>
+      <span style="flex:1"></span>
+      <button type="button" class="ghost" id="cluster-cancel">取消</button>
+      <button type="button" class="primary" id="cluster-save">保存</button>
+    </footer>
+  </form>
+</dialog>
+
+<!-- 测试结果抽屉 -->
+<dialog class="sheet sheet--wide" id="test-sheet">
+  <form method="dialog">
+    <header class="sheet__head">
+      <h3 id="test-title">连接测试</h3>
+      <button type="button" class="ghost ghost--icon" id="test-close" aria-label="关闭">
+        <svg class="icon"><use href="#i-x"/></svg>
+      </button>
+    </header>
+    <div id="test-body"></div>
+    <footer class="sheet__actions">
+      <button type="button" class="primary" id="test-ok">知道了</button>
+    </footer>
+  </form>
+</dialog>
+
+<script src="/static/auth.js"></script>
+<script src="/static/admin.js" defer></script>
+</body>
+</html>

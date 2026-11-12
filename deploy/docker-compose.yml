@@ -1,0 +1,34 @@
+# 一条命令起协调服务：
+#   cp .env.example .env && vi .env
+#   docker compose -f deploy/docker-compose.yml up -d
+services:
+  coordinator:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: hil2-coordinator:1.0.0
+    container_name: hil2-coordinator
+    restart: unless-stopped
+    env_file: ../.env
+    environment:
+      DB_PATH: /app/var/hil2.db
+      RESERVATION_FILE: /app/var/reservations.json
+    ports:
+      # 默认只绑回环；要给同事看大盘再改成 0.0.0.0 并配好 SSO
+      - "127.0.0.1:8848:8848"
+    volumes:
+      - hil2-data:/app/var
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    # 服务不需要写容器文件系统
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  hil2-data:
