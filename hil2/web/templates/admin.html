@@ -169,5 +169,41 @@
 
 <script src="/static/auth.js"></script>
 <script src="/static/admin.js" defer></script>
+<script>
+(()=>{
+const dict={"刷新":{"en":"Refresh","ja":"更新"},"取消":{"en":"Cancel","ja":"キャンセル"},"保存":{"en":"Save","ja":"保存"},"加载中...":{"en":"Loading...","ja":"読み込み中..."},"全部":{"en":"All","ja":"すべて"},"状态":{"en":"Status","ja":"状態"},"操作":{"en":"Actions","ja":"操作"},"来源":{"en":"Source","ja":"ソース"},"类型":{"en":"Type","ja":"種類"},"地址":{"en":"Address","ja":"アドレス"},"频率":{"en":"Frequency","ja":"頻度"},"已翻译":{"en":"Translated","ja":"翻訳済み"},"中文":{"en":"Chinese","ja":"中国語"},"日本語":{"en":"Japanese","ja":"日本語"},"英语":{"en":"English","ja":"英語"},"今天":{"en":"Today","ja":"今日"},"时段":{"en":"Time slot","ja":"時間帯"},"集群":{"en":"Cluster","ja":"クラスタ"},"时长":{"en":"Duration","ja":"時間"},"最近操作":{"en":"Recent actions","ja":"最近の操作"},"知道了":{"en":"Got it","ja":"了解"},"加载中…":{"en":"Loading…","ja":"読み込み中…"},"HIL2.0 集群预约":{"en":"HIL2.0 Cluster Reservations","ja":"HIL2.0 クラスタ予約"},"跳到集群列表":{"en":"Skip to clusters","ja":"クラスタ一覧へ"},"查看状态，选择时段，提交预约":{"en":"Check status, select a time slot, and reserve","ja":"状態を確認し、時間帯を選んで予約"},"最近采集":{"en":"Last collection","ja":"最終収集"},"页面生成":{"en":"Page generated","ja":"ページ生成"},"飞书登录":{"en":"Sign in with Feishu","ja":"Feishu でログイン"},"只读监控。":{"en":"Read-only monitoring.","ja":"読み取り専用の監視。"},"不会停容器、杀进程、删数据，也不会因为没人回复卡片就自动释放集群。采集异常一律按「未知」处理，绝不判定为空闲。":{"en":"The system never stops containers, kills processes, deletes data, or automatically releases clusters. Collection errors are always unknown, never idle.","ja":"コンテナ停止、プロセス終了、データ削除、自動解放は行いません。収集エラーは空きではなく「不明」と判定します。"},"机群概览":{"en":"Cluster overview","ja":"クラスタ概要"},"与协调服务失去连接。":{"en":"Connection to the coordinator was lost.","ja":"調整サービスとの接続が切れました。"},"下方仍是最后一次成功读取的数据，":{"en":"The data below is from the last successful read,","ja":"以下は最後に正常取得したデータであり、"},"不代表当前真实状态":{"en":"not the current state","ja":"現在の状態を示すものではありません"},"重试":{"en":"Retry","ja":"再試行"},"当前状态":{"en":"Current status","ja":"現在の状態"},"正在筛选：":{"en":"Filtering:","ja":"絞り込み中："},"显示全部":{"en":"Show all","ja":"すべて表示"},"预约集群":{"en":"Reserve a cluster","ja":"クラスタを予約"},"在空白时段上拖动，选好后确认即可":{"en":"Drag across an empty time slot, then confirm","ja":"空き時間帯をドラッグして確認してください"},"我是":{"en":"I am","ja":"ユーザー"},"登录后预约":{"en":"Sign in to reserve","ja":"ログインして予約"},"我的预约":{"en":"My reservations","ja":"自分の予約"},"他人预约":{"en":"Others’ reservations","ja":"ほかの予約"},"正在使用":{"en":"In use","ja":"使用中"},"已过去":{"en":"Past","ja":"過去"},"普通用户只能取消自己的预约":{"en":"You can only cancel your own reservations","ja":"一般ユーザーがキャンセルできるのは自分の予約だけです"},"飞书群里 @机器人 发「预约 52 明天 14:00-18:00」也可以":{"en":"You can also mention the bot in Feishu: “预约 52 明天 14:00-18:00”","ja":"Feishu グループで Bot に「预约 52 明天 14:00-18:00」と送ることもできます"},"运行记录":{"en":"Activity log","ja":"運用ログ"},"未恢复事件":{"en":"Unresolved events","ja":"未解決のイベント"},"没有未恢复的事件。采集恢复正常后会自动销案。":{"en":"No unresolved events. They close automatically when collection recovers.","ja":"未解決のイベントはありません。収集が復旧すると自動で解決済みになります。"},"最近动作":{"en":"Recent actions","ja":"最近の操作"},"只记录，不打扰":{"en":"Log only, no notification","ja":"記録のみ、通知なし"},"还没有对外动作。":{"en":"No external actions yet.","ja":"外部への操作はまだありません。"},"确认预约":{"en":"Confirm reservation","ja":"予約を確定"},"备注（可选）":{"en":"Note (optional)","ja":"備考（任意）"},"预约只影响排期。系统不会因为预约到期就自动关掉你的环境， 到点后会先在群里请你确认。":{"en":"Reservations only affect scheduling. Expiration never shuts down your environment; you will be asked to confirm in the group first.","ja":"予約はスケジュールのみに影響します。期限が来ても環境は停止せず、まずグループで確認を求めます。"},"再想想":{"en":"Go back","ja":"戻る"},"纳管集群":{"en":"Managed clusters","ja":"管理対象クラスタ"},"每":{"en":"Every","ja":"毎"},"秒自动刷新":{"en":"seconds auto-refresh","ja":"秒ごとに自動更新"},"管理后台 · HIL 集群监控":{"en":"Admin · HIL Cluster Monitor","ja":"管理画面・HIL クラスタ監視"},"管理后台":{"en":"Admin","ja":"管理画面"},"逐台配置采集、验证连接并管理飞书组织":{"en":"Configure collection, verify connections, and manage Feishu organization","ja":"収集設定、接続確認、Feishu 組織の管理"},"集群监控":{"en":"Cluster monitoring","ja":"クラスタ監視"},"组织与权限":{"en":"Organization & access","ja":"組織と権限"},"系统设置":{"en":"Settings","ja":"設定"},"新增集群":{"en":"Add cluster","ja":"クラスタを追加"},"两种采集方式，逐台可选。":{"en":"Choose one of two collection methods per cluster.","ja":"クラスタごとに二つの収集方式から選べます。"},"Agent 推送":{"en":"Agent push","ja":"エージェント送信"},"SSH 拉取":{"en":"SSH pull","ja":"SSH 取得"},"集群上什么都不用装":{"en":"Nothing to install on the cluster","ja":"クラスタ側へのインストールは不要"},"还没有纳管任何集群，点右上角新增。":{"en":"No managed clusters yet. Add one at the upper right.","ja":"管理対象クラスタはまだありません。右上から追加してください。"},"飞书组织架构":{"en":"Feishu organization","ja":"Feishu 組織"},"测试连接":{"en":"Test connection","ja":"接続をテスト"},"立即同步":{"en":"Sync now","ja":"今すぐ同期"},"同步会拉取部门和成员，用于后台指派管理员、预约页显示真实姓名。":{"en":"Sync departments and members for admin assignment and reservation names.","ja":"部門とメンバーを同期し、管理者の指定と予約画面の名前表示に使用します。"},"只新增和更新，不删人":{"en":"Add and update only; never delete people","ja":"追加と更新のみ。ユーザーは削除しません"},"只看管理员":{"en":"Admins only","ja":"管理者のみ"},"通讯录还是空的，点「立即同步」拉取。":{"en":"The directory is empty. Click Sync now.","ja":"連絡先が空です。「今すぐ同期」を押してください。"},"改完立即生效，不用重启":{"en":"Changes apply immediately","ja":"変更は再起動なしですぐ反映"},"编辑集群":{"en":"Edit cluster","ja":"クラスタを編集"},"移出纳管":{"en":"Remove cluster","ja":"管理対象から外す"},"连接测试":{"en":"Connection test","ja":"接続テスト"},"空闲":{"en":"Idle","ja":"空き"},"使用中":{"en":"Busy","ja":"使用中"},"疑似空闲":{"en":"Possibly idle","ja":"空きの可能性"},"未知":{"en":"Unknown","ja":"不明"},"保留中":{"en":"Reserved","ja":"予約中"},"采集异常":{"en":"Collection error","ja":"収集エラー"},"测试进程":{"en":"Test process","ja":"テストプロセス"},"数据写入":{"en":"Data writes","ja":"データ書き込み"},"未匹配":{"en":"Not matched","ja":"未検出"},"无":{"en":"None","ja":"なし"},"运行中":{"en":"Running","ja":"実行中"},"近期有":{"en":"Recent","ja":"最近あり"},"交接":{"en":"Handoff","ja":"引き継ぎ"},"已提醒":{"en":"Reminded","ja":"通知済み"},"不会自动释放":{"en":"Never auto-released","ja":"自動解放しません"}};
+const fragments={"未纳管":{"en":"Unmanaged","ja":"管理対象外"}};
+const key='opensource.language';
+let lang=localStorage.getItem(key)||(/^(ja)/i.test(navigator.language)?'ja':/^(en)/i.test(navigator.language)?'en':'zh');
+if(!['zh','en','ja'].includes(lang))lang='zh';
+const originals=new WeakMap(), last=new WeakMap();
+const clean=s=>s.replace(/\s+/g,' ').trim();
+let busy=false;
+function translate(){
+ if(busy)return;busy=true;
+ const walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;
+ while((node=walk.nextNode())){
+  if(node.parentElement?.closest('script,style,textarea,pre,code,#language-switch'))continue;
+  const now=node.nodeValue||'';if(!originals.has(node)||now!==last.get(node))originals.set(node,now);
+  const source=originals.get(node), entry=dict[clean(source)];
+  let rendered=entry?entry[lang]:clean(source);
+  if(!entry&&lang!=='zh'){for(const [from,to] of Object.entries(fragments))rendered=rendered.replaceAll(from,to[lang]);}
+  const wanted=lang==='zh'?source:(source.match(/^\s*/)[0]+rendered+source.match(/\s*$/)[0]);
+  if(now!==wanted)node.nodeValue=wanted;last.set(node,wanted);
+ }
+ document.querySelectorAll('[placeholder]').forEach(el=>{
+  const now=el.getAttribute('placeholder')||'';if(!el.dataset.i18nOriginal||now!==el.dataset.i18nLast)el.dataset.i18nOriginal=now;
+  const source=el.dataset.i18nOriginal, entry=dict[clean(source)];
+  const wanted=lang==='zh'||!entry?source:entry[lang];
+  if(now!==wanted)el.setAttribute('placeholder',wanted);el.dataset.i18nLast=wanted;
+ });
+ document.documentElement.lang=lang==='zh'?'zh-CN':lang;busy=false;
+}
+const select=document.createElement('select');select.id='language-switch';select.setAttribute('aria-label','Language / 语言 / 言語');select.innerHTML='<option value="zh">中文</option><option value="en">English</option><option value="ja">日本語</option>';select.value=lang;
+select.style.cssText='position:fixed;right:16px;bottom:16px;z-index:10000;padding:8px 12px;border-radius:8px;border:1px solid #888;background:#18202c;color:white;font:14px sans-serif;box-shadow:0 3px 15px #0005';
+select.addEventListener('change',()=>{lang=select.value;localStorage.setItem(key,lang);translate()});document.body.appendChild(select);
+new MutationObserver(()=>translate()).observe(document.body,{subtree:true,childList:true,characterData:true});translate();
+})();
+</script>
 </body>
 </html>

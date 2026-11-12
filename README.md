@@ -1,3 +1,5 @@
+**语言 / Language / 言語:** [简体中文](README.md) · [English](README.en.md) · [日本語](README.ja.md)
+
 # HIL2.0 集群闲忙监控与飞书人工交接
 
 ![模拟集群监控界面](docs/demo-dashboard.png)
@@ -186,3 +188,7 @@ make cov
 原项目记录有 623 个用例；发布副本以本仓库 CI 的结果为准；其中决策引擎 `flow_engine.py` 有独立分支测试。
 `make test` 同时会跑安装脚本的沙箱测试（`tests/test_install_script.sh`）。
 `tests/test_acceptance.py` 的类名与交接文件第 11 节的 12 项验收标准一一对应，便于逐条勾选。
+
+## 语言
+
+网页右下角可切换中文、English、日本語；主导航、筛选和常用状态会随之切换。来自外部系统的标题、原文和诊断详情保留来源语言。
