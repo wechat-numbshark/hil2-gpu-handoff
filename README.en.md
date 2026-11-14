@@ -4,7 +4,7 @@
 
 **The hard question in a shared GPU lab is “can this machine be handed to the next person?”** GPU utilization and running containers do not answer that. HIL2 combines read-only machine facts, half-hour reservations, and confirmation from the current occupant. Collection failures are shown as unknown; nobody is automatically evicted.
 
-Need help with installation, a private deployment, or a customization that follows your workflow? Contact us at [buildwithneo.cn](https://buildwithneo.cn).
+> **Enterprise AI consulting & development** (Feishu/Lark integration, private deployment, custom builds) → [buildwithneo.cn](https://buildwithneo.cn/)
 
 ### See the handoff flow · synthetic data
 
